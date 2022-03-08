@@ -1,19 +1,16 @@
 /*--------------------------
 	TO DO:
-		CHANGE
 		GENERAL:
-		Implement lists into the program
-		Both stock and cart should be lists
+		Probably incorporate vectors instead of lists
+		Add way to change from employee to customer
+		Add error checking
 		CUSTOMER:
-		Get the search functions running. Function should check either ID number or game name (Maybe 
-		customer can't search by ID number?)
-		Use lists to be able to edit cart (add/remove games) 
-		addcheckout function for customer
+		Use vectors to be able to edit cart (add/remove games) 
+		add checkout function for customer
 		EMPLOYEE:
-		Figure out how to work with lists and structs. If unable to, make game a class
-		Add games to stock list
-		Search should be same as customer, maybe add functionality that differs between customer and employee
-		Add way to edit game data
+		Make games a vector
+		add way to edit game data
+		add way to add games to the store
 ----------------------------*/
 #include <iostream>
 #include <string>
@@ -32,6 +29,8 @@ void customer();
 void search(int type);
 //Declare an array of games, with a max of 25. (It is a small game store after all!)
 game stock[25];
+//Declare a cart price for use at end of program
+float cartTotal;
 
 int main() {
 	char in;
@@ -60,7 +59,6 @@ void employee() {
 }
 
 void customer() {
-	float cartTotal;
 	char in;
 
 	//Give customer a list of options, then react accordingly
@@ -79,19 +77,16 @@ void customer() {
 			search(1);
 			break;
 		case '2':
-			search(1);
 			break;
 		case '3':
-			search(1);
 			break;
 		case '4':
-			search(1);
 			break;
-		case '5':
-			search(1);
-			break;
-		
+		default:
+			cout << "Please enter a valid input! ";
+			break;	
 	}
+	cout << cartTotal << endl;
 }
 
 void search(int type) {
@@ -101,7 +96,7 @@ void search(int type) {
 	ret.name = "null";
 
 	cout << "Please enter the title of the game you are looking for. ";
-	cin >> input;
+	getline(cin.ignore(), input);
 	
 	//Looks through stock array to find the game based on title
 	while (ret.name == "null") {
@@ -114,14 +109,29 @@ void search(int type) {
 
 			}
 		}
+		//Makes sure the user inputs a valid game title
 		if (ret.name == "null") { 
 			cout << "Please enter a valid game name. To exit, enter 'exit': ";
-			cin >> input;
+			getline(cin, input);
 		}
 	}
+	//If the user didn't enter exit, print out game information, and check if user would like to purchase
 	if (ret.name != "null") {
-		cout << "Game info: " << endl << "Game name: " << ret.name << endl << "Game cost: " << ret.cost << "Game inventory: " << ret.inventory << endl;
-		cout << "Would you like to purchase this game?";
+		cout << "Game info: " << endl << "Game name: " << ret.name << endl << "Game cost: " << ret.cost << endl << "Game inventory: " << ret.inventory << endl;
+		cout << "Would you like to purchase this game? (Y/N) ";
+		cin >> pur;
+		switch (toupper(pur)) {
+			case 'Y':
+				ret.inventory -= 1;
+				cartTotal += ret.cost;	
+				cout << "Thank you for your purchase!" << endl;		
+				break;
+			case 'N':
+				break;
+			default: 
+				cout << "Please enter a valid option! ";
+				break;
+		}	
 	}
 	
 }
