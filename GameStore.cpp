@@ -104,19 +104,22 @@ void search(int type) {
 	cin >> input;
 	
 	//Looks through stock array to find the game based on title
-	while (ret.name = "null") {
-		if (tolower(input) == "exit") { ret.name = "exit"; break; }
-		for (int i = 0; i < stock.length; i++) {
-			if (tolower(input) == tolower(stock[i].name)) {
-				ret = stock[i];
+	while (ret.name == "null") {
+		if (input == "exit") { ret.name = "null"; break; }
+		for (int i = 0; i < sizeof(stock)/sizeof(stock[0]); i++) {
+			if (input == stock[i].name) {
+				ret.name = stock[i].name;
+				ret.cost = stock[i].cost;
+				ret.inventory = stock[i].inventory;
+
 			}
 		}
-		if (ret.name = "null") { 
+		if (ret.name == "null") { 
 			cout << "Please enter a valid game name. To exit, enter 'exit': ";
 			cin >> input;
 		}
 	}
-	if (ret.name != "exit") {
+	if (ret.name != "null") {
 		cout << "Game info: " << endl << "Game name: " << ret.name << endl << "Game cost: " << ret.cost << "Game inventory: " << ret.inventory << endl;
 		cout << "Would you like to purchase this game?";
 	}
